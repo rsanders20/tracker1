@@ -1,13 +1,19 @@
 package com.example.android.tracker1;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 
@@ -29,15 +35,43 @@ public class ListActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        insertWeight();
+        //insertWeight();
 
         ListView weightList = (ListView) findViewById(R.id.list);
         getLoaderManager().initLoader(WEIGHT_LOADER, null, this);
 
         mCursorAdapter = new WeightCursorAdapter(this, null);
         weightList.setAdapter(mCursorAdapter);
+
+        weightList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                final Intent intent = new Intent(ListActivity.this, EditorActivity.class);
+                Uri currentUri = ContentUris.withAppendedId(Contract.WeightEntry.CONTENT_URI,id);
+                intent.setData(currentUri);
+                startActivity(intent);
+            }
+        });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.delete_all:
+                int delRows = getContentResolver().delete(Contract.WeightEntry.CONTENT_URI,
+                        null, null);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

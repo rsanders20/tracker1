@@ -10,13 +10,35 @@
         android:id="@+id/date_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="DATE" />
+        android:hint="DATE"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:inputType="date"/>
 
     <EditText
-        android:layout_toRightOf="@id/date_text"
+        android:layout_below="@id/date_text"
         android:id="@+id/weight_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="WEIGHT" />
+        android:hint="WEIGHT"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        android:inputType="number"/>
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"/>
+
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
